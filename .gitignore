@@ -1,0 +1,6 @@
+# Proprietary license. Can't be redistributed
+fonts/Arial*
+# compiled output
+presentation.pdf
+# typst cache
+.cache/

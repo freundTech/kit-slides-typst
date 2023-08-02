@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  typst:
+    image: ghcr.io/typst/typst:latest
+    entrypoint: typst
+    environment:
+      TYPST_FONT_PATHS: ./fonts
+    volumes:
+      - .:/root:Z
