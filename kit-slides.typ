@@ -4,7 +4,7 @@
 //
 // You don't need to edit this file. Only presentation.typ
 // =========================================================
-#import "@preview/polylux:0.2.0": *
+#import "@preview/polylux:0.3.1": *
 
 #let _kit-outer-margin = 3mm
 #let _kit-inner-margin = 11mm
