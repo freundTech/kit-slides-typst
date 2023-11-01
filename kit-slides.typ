@@ -22,6 +22,8 @@
 #let yellow = rgb(252, 229, 0)
 #let orange = rgb(223, 155, 27)
 #let red = rgb(162, 34, 35)
+#let lightgreen = rgb(140, 182, 60)
+#let gray = rgb(0, 0, 0)
 
 #let kit-title = state("kit-title", [])
 #let kit-subtitle = state("kit-subtitle", [])
@@ -258,4 +260,70 @@
     let body = grid(columns: (1fr, 1fr), gutter: 2em, body-left, body-right)
 
     slide(title: title, body)
+}
+
+#let roundedblock(title: [], body, color: white, title-color: black) = {
+  block(width: 100%, fill: color.lighten(85%), inset: 0pt, clip: true, radius: (
+    "bottom-left": 9pt,
+    "top-right": 9pt,
+  ))[
+    #block(
+      width: 100%, 
+      inset: (left: 0.5em, top: 0.3em, bottom: 0.4em), 
+      fill: gradient.linear(
+        (color, 0%), (color, 87%), (color.lighten(85%), 100%),
+        dir: ttb
+      ), 
+      radius: (
+        "top-right": 9pt, // Todo: Remove for typst 0.9.0
+      ),
+      text(fill: title-color, title)
+    )
+    #set text(size: 15pt)
+    #block(inset: 0.5em , above: 0pt, body)
+  ]
+}
+
+#let greenblock(title: [], body) = {
+  roundedblock(title: title, body, color: kit-green, title-color: white)
+}
+
+#let blueblock(title: [], body) = {
+  roundedblock(title: title, body, color: kit-blue, title-color: white)
+}
+
+#let redblock(title: [], body) = {
+  roundedblock(title: title, body, color: red, title-color: white)
+}
+
+#let brownblock(title: [], body) = {
+  roundedblock(title: title, body, color: brown, title-color: white)
+}
+
+#let purpleblock(title: [], body) = {
+  roundedblock(title: title, body, color: purple, title-color: white)
+}
+
+#let cyanblock(title: [], body) = {
+  roundedblock(title: title, body, color: cyan, title-color: white)
+}
+
+#let yellowblock(title: [], body) = {
+  roundedblock(title: title, body, color: yellow, title-color: black)
+}
+
+#let lightgreenblock(title: [], body) = {
+  roundedblock(title: title, body, color: lightgreen, title-color: white)
+}
+
+#let orangeblock(title: [], body) = {
+  roundedblock(title: title, body, color: orange, title-color: white)
+}
+
+#let grayblock(title: [], body) = {
+  roundedblock(title: title, body, color: color.lighten(gray, 30%), title-color: white)
+}
+
+#let contentblock(title: [], body) = {
+  roundedblock(title: title, body, color: white, title-color: black)
 }
