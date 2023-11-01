@@ -37,42 +37,16 @@
 // Helper functions
 //=================
 
-// Uses paths overlayed over a block to work around broken clipping implementation when using rounded corners. See https://github.com/typst/typst/issues/737
 #let kit-rounded-block(radius: 3mm, background: white, body) = {
-    let corner-bottom-left = path(
-        fill: background,
-        stroke: none,
-        closed: true,
-        //approximation of a circle using bezier curves
-        ((1pt, 0pt), (0pt, 0.552284749831 * radius), (0pt, 0pt)),
-        (0pt, 0pt),
-        (0pt, radius+1pt),
-        (radius+1pt, radius+1pt),
-        ((radius+1pt, radius), (0pt, 0pt), (-0.552284749831 * radius, 0pt)),
+    block(
+        stroke: 0pt, // Workaround for https://github.com/typst/typst/issues/2533
+        radius: (
+            top-right: 5mm,
+            bottom-left: radius,
+        ),
+        clip: true,
+        body
     )
-    let corner-top-right = path(
-        fill: background,
-        stroke: none,
-        closed: true,
-        //approximation of a circle using bezier curves
-        ((0pt, 1pt), (0.552284749831 * radius, 0pt), (0pt, 0pt)),
-        (0pt, 0pt),
-        (radius+1pt, 0pt),
-        (radius+1pt, radius+1pt),
-        ((radius, radius+1pt), (0pt, 0pt), (0pt, -0.552284749831 * radius)),
-    )
-
-    block(clip: false)[
-        #body
-        #place(
-            bottom + left,
-            move(dx: -1pt, dy: 1pt, corner-bottom-left)
-        )
-        #place(
-            top + right,
-            move(dx: 1pt, dy: -1pt, corner-top-right)
-        )
-    ]
 }
 
 #let kit-theme(
