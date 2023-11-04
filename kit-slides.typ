@@ -22,8 +22,6 @@
 #let yellow = rgb(252, 229, 0)
 #let orange = rgb(223, 155, 27)
 #let red = rgb(162, 34, 35)
-#let lightgreen = rgb(140, 182, 60)
-#let gray = rgb(0, 0, 0)
 
 #let kit-title = state("kit-title", [])
 #let kit-subtitle = state("kit-subtitle", [])
