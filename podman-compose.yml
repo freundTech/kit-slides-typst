@@ -4,6 +4,7 @@ services:
   typst:
     image: ghcr.io/typst/typst:latest
     entrypoint: typst
+    command: watch presentation.typ
     environment:
       TYPST_FONT_PATHS: ./fonts
     volumes:
