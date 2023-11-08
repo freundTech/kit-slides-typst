@@ -234,17 +234,8 @@
     slide(title: title, body)
 }
 
-#let kit-rounded-block(title: [], color: [], body) = {
-  block(
-    width: 100%, 
-    fill: color.lighten(85%), 
-    inset: 0pt, 
-    clip: true, 
-    stroke: 0pt, // Todo: remove stroke once https://github.com/typst/typst/issues/2533 is resolved
-    radius: (
-    "bottom-left": 9pt,
-    "top-right": 9pt,
-    )
+#let kit-color-block(title: [], color: [], body) = {
+  kit-rounded-block(
   )[
     #block(
       width: 100%, 
@@ -256,19 +247,19 @@
       text(title)
     )
     #set text(size: 15pt)
-    #block(inset: 0.5em , above: 0pt, body)
+    #block(inset: 0.5em , above: 0pt, fill: color.lighten(85%), width: 100%, body)
   ]
 }
 
 #let kit-info-block(title: [], body) = {
-  kit-rounded-block(title: text(fill: white, title), color: kit-green, body)
+  kit-color-block(title: text(fill: white, title), color: kit-green, body)
 }
 
 #let kit-example-block(title: [], body) = {
-  kit-rounded-block(title: text(fill: white, title), color: kit-blue, body)
+  kit-color-block(title: text(fill: white, title), color: kit-blue, body)
 }
 
 #let kit-alert-block(title: [], body) = {
-  kit-rounded-block(title: text(fill: white, title), color: red.lighten(10%), body)
+  kit-color-block(title: text(fill: white, title), color: red.lighten(10%), body)
 }
 
