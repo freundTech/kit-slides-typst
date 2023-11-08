@@ -37,3 +37,19 @@
   #uncover("2-")[This appears later!]
 ]
 
+#slide(title: [Colored Blocks])[
+  #set block(above: 0.8em) // Slightly reduce the block spacing, so we can fit 4 blocks on a page
+  #kit-info-block(title: [Info Block])[
+    - Green
+  ]
+  #kit-example-block(title: [Example Block])[
+    - Blue
+  ]
+  #kit-alert-block(title:[Alert Block])[
+    - Red
+  ]
+  #kit-color-block(title: [Custom Colors], color: yellow)[
+    - Whatever you want
+  ]
+]
+
