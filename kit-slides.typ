@@ -32,6 +32,7 @@
 #let kit-group-logo = state("kit-group-logo", none)
 #let kit-institute = state("kit-institute", [])
 #let kit-date = state("kit-date", none)
+#let kit-show-page-count = state("kit-show-page-count", false)
 
 //=================
 // Helper functions
@@ -60,6 +61,7 @@
     institute: none,
     date: none,
     aspect-ratio: "16-9",
+    show-page-count: false,
     body,
 ) = {
 
@@ -99,6 +101,7 @@
     kit-institute.update(institute)
     kit-group-logo.update(group-logo)
     kit-date.update(date)
+    kit-show-page-count.update(show-page-count)
 
     let testvar = [abcdefg]
 
@@ -212,10 +215,11 @@
         #block(width: 100%, height: _kit-inner-margin)[
             #align(horizon)[
                 #grid(columns: (20mm, 30mm, 1fr, auto))[
-                    #pad(left: 6mm)[
-                        // Workaround. See https://github.com/andreasKroepelin/polylux/issues/61#issuecomment-1654348478. Can be replaced with `logic.logical-slide.display() in the next polylux release.
-                        #themes.simple.logic.logical-slide.display()
-                    ]
+                    #pad(left: 6mm, locate(loc => if kit-show-page-count.at(loc) [
+                        #logic.logical-slide.display()/#strong(utils.last-slide-number)
+                    ] else [
+                        #logic.logical-slide.display()
+                    ]))
                 ][
                     #kit-date.display()
                 ][
