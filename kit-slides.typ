@@ -239,12 +239,12 @@
   )[
     #block(
       width: 100%, 
-      inset: (left: 0.5em, top: 0.3em, bottom: 0.4em), 
+      inset: (x: 0.5em, top: 0.3em, bottom: 0.4em), 
       fill: gradient.linear(
         (color, 0%), (color, 87%), (color.lighten(85%), 100%),
         dir: ttb
       ),
-      text(title)
+      title
     )
     #set text(size: 15pt)
     #block(inset: 0.5em , above: 0pt, fill: color.lighten(85%), width: 100%, body)
