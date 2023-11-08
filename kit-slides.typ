@@ -41,7 +41,7 @@
     block(
         stroke: 0pt, // Workaround for https://github.com/typst/typst/issues/2533
         radius: (
-            top-right: 5mm,
+            top-right: radius,
             bottom-left: radius,
         ),
         clip: true,
