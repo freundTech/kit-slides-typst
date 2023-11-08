@@ -39,7 +39,7 @@
 // Helper functions
 //=================
 
-#let kit-rounded-block(radius: 3mm, background: white, body) = {
+#let kit-rounded-block(radius: 3mm, body) = {
     block(
         stroke: 0pt, // Workaround for https://github.com/typst/typst/issues/2533
         radius: (
@@ -50,6 +50,16 @@
         body
     )
 }
+
+#let kit-list-marker = move(dy: 0.125em, kit-rounded-block(
+    radius: 0.15em,
+    rect(
+        // The latex documentclass uses a size of 1ex, but type only supports em.
+        width: 0.5em,
+        height: 0.5em,
+        fill: kit-green,
+    )
+))
 
 #let kit-theme(
     title: none,
@@ -79,11 +89,7 @@
 
     set text(font: ("Arial", "Helvetica", "Roboto"))
 
-    // The latex documentclass uses a size of 1ex, but type only supports em.
-    set list(marker: align(horizon, rect(width: 0.5em, height: 0.5em, fill: kit-green, stroke: none, radius: (
-        "top-right": 0.15em,
-        "bottom-left": 0.15em,
-    ))))
+    set list(marker: kit-list-marker)
 
     kit-title.update(title)
     kit-subtitle.update(subtitle)
@@ -103,8 +109,6 @@
     kit-group-logo.update(group-logo)
     kit-date.update(date)
     kit-show-page-count.update(show-page-count)
-
-    let testvar = [abcdefg]
 
     body
 }
@@ -176,14 +180,14 @@
                 ])
             ]
         ]
-    ]
+    ])
 }
 
 #let slide(title: [], body) = {
     show: polylux-slide
     set block(above: 0pt)
     // Title bar
-    block(width: 100%, height: 22.5mm, inset: ("left": _kit-inner-margin, "right": _kit-inner-margin))[
+    block(width: 100%, height: 22.5mm, inset: (x: _kit-inner-margin))[
        #grid(columns: (auto, 1fr))[
             #set text(24pt, weight: "bold")
             // We need a block here to force the grid to take the full height of the surrounding block
@@ -200,7 +204,7 @@
     ]
     v(15.5mm)
     // Content block
-    block(inset: ("left": _kit-inner-margin, "right": _kit-inner-margin))[
+    block(width: 100%, inset: (x: _kit-inner-margin))[
         #set text(18pt)
         // Default value, but had to be changed for layout
         #set block(above: 1.2em)
@@ -208,7 +212,7 @@
     ]
     
     // Footer
-    align(bottom, block(width: 100%, inset: ("left": _kit-outer-margin, "right": _kit-outer-margin))[
+    align(bottom, block(width: 100%, inset: (x: _kit-outer-margin))[
         #set block(above: 0pt)
         #set text(size: 9pt)
         #line(stroke: rgb("#d8d8d8"), length: 100%)
