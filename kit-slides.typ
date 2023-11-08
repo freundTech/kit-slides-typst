@@ -8,6 +8,7 @@
 
 #let _kit-outer-margin = 3mm
 #let _kit-inner-margin = 11mm
+#let _kit-top-margin = 10mm
 #let _kit-bottom-margin = 11mm
 
 #let kit-green = rgb(0, 150, 130)
@@ -113,49 +114,48 @@
 //=================
 
 #let title-slide(banner: none) = {
-    //text("test")
     show: polylux-slide
     if banner == none {
         banner = "kit/banner.jpg"
     }
 
-    // KIT logo
-    place(top + left, dx: _kit-inner-margin, dy: 10mm)[
-        #locate(loc => {
-            image("kit/logo-" + kit-language.at(loc) + ".svg", width: 45mm)
-        })
-    ]
-    // Group logo
-    locate(loc => {
-        let group-logo = kit-group-logo.at(loc)
-        if group-logo != none [
-            #place(top + right, dx: -6mm, dy: 10mm)[
-                #block(width: 30mm, height: 30mm)[
-                    #image(group-logo)
-                ]
+    // Top half
+    pad(left: _kit-inner-margin, right: 6mm, top: _kit-top-margin)[
+        // KIT logo
+        #place[
+          #locate(loc => {
+              image("kit/logo-" + kit-language.at(loc) + ".svg", width: 45mm)
+          })
+        ]
+        // Group logo
+        #place(right)[
+            #block(width: 30mm, height: 30mm)[
+              #locate(loc => {
+                  let group-logo = kit-group-logo.at(loc)
+                  if group-logo != none [
+                        #image(group-logo)
+                  ]
+              })
             ]
         ]
-    })
-    // Title
-    place(top + left, dx: _kit-inner-margin, dy: 42mm)[
-        #set text(weight: "bold", size: 26pt)
-        #align(left+horizon, kit-title.display())
-    ]
-    // Subtitle
-    place(top + left, dx: _kit-inner-margin, dy: 54mm)[
-        #set text(weight: "bold", size: 18pt)
-        #set par(leading: 0.3em)
-        #align(left+horizon, kit-subtitle.display())
-    ]
-    // Banner
-    place(bottom + left, dy: -_kit-bottom-margin)[
-        #block(height: 60mm, inset: ("left": _kit-outer-margin, "right": _kit-outer-margin))[
-            #kit-rounded-block(radius: 3mm, image(banner, width: 100%, height: 100%))
+        // Title
+        #place(dy: 32mm, text(weight: "bold", size: 26pt, kit-title.display()))
+        // Subtitle
+        #place(dy: 44mm)[
+            #set text(weight: "bold", size: 18pt)
+            #set par(leading: 0.3em)
+            #kit-subtitle.display()
         ]
     ]
-    // Footer
-    align(bottom + left)[
-        #block(height: _kit-bottom-margin, width: 100%, inset: ("left": _kit-outer-margin, "right": _kit-outer-margin))[
+
+    // Bottom half
+    align(bottom, pad(x: _kit-outer-margin)[
+        // Banner
+        #block(height: 60mm, below: 0pt)[
+            #kit-rounded-block(radius: 3mm, image(banner, width: 100%, height: 100%))
+        ]
+        // Footer
+        #block(height: _kit-bottom-margin, width: 100%)[
             #grid(columns: (auto, 1fr))[
                 #align(left + horizon)[
                     #block(height: 100%)[
