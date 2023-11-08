@@ -233,3 +233,40 @@
 
     slide(title: title, body)
 }
+
+#let kit-color-block(title: [], color: [], body) = {
+  // 80% is a rought heuristic, that produces the correct result for all predefined colors.
+  // Might be adjusted in the future
+  let title-color = if luma(color).components().at(0) >= 80% {
+    black
+  } else {
+    white
+  }
+  kit-rounded-block(
+  )[
+    #block(
+      width: 100%, 
+      inset: (x: 0.5em, top: 0.3em, bottom: 0.4em), 
+      fill: gradient.linear(
+        (color, 0%), (color, 87%), (color.lighten(85%), 100%),
+        dir: ttb
+      ),
+      text(fill: title-color, title)
+    )
+    #set text(size: 15pt)
+    #block(inset: 0.5em , above: 0pt, fill: color.lighten(85%), width: 100%, body)
+  ]
+}
+
+#let kit-info-block(title: [], body) = {
+  kit-color-block(title: title, color: kit-green, body)
+}
+
+#let kit-example-block(title: [], body) = {
+  kit-color-block(title: title, color: kit-blue, body)
+}
+
+#let kit-alert-block(title: [], body) = {
+  kit-color-block(title: title, color: red.lighten(10%), body)
+}
+
