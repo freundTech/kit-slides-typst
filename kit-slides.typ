@@ -186,54 +186,51 @@
 #let slide(title: [], body) = {
     show: polylux-slide
     set block(above: 0pt)
-    // Title bar
-    block(width: 100%, height: 22.5mm, inset: (x: _kit-inner-margin))[
-       #grid(columns: (auto, 1fr))[
-            #set text(24pt, weight: "bold")
-            // We need a block here to force the grid to take the full height of the surrounding block
-            #block(height: 100%)[
-                #align(left + bottom, title)
-            ]
-        ][
-            #align(right + bottom)[
-                #locate(loc => {
-                    image("kit/logo-" + kit-language.at(loc) + ".svg", width: 30mm)
-                })
-            ]
-        ]
-    ]
-    v(15.5mm)
-    // Content block
-    block(width: 100%, inset: (x: _kit-inner-margin))[
-        #set text(18pt)
-        // Default value, but had to be changed for layout
-        #set block(above: 1.2em)
-        #body
-    ]
-    
-    // Footer
-    align(bottom, block(width: 100%, inset: (x: _kit-outer-margin))[
-        #set block(above: 0pt)
-        #set text(size: 9pt)
-        #line(stroke: rgb("#d8d8d8"), length: 100%)
-        #block(width: 100%, height: _kit-inner-margin)[
-            #align(horizon)[
-                #grid(columns: (20mm, 30mm, 1fr, auto))[
-                    #pad(left: 6mm, locate(loc => if kit-show-page-count.at(loc) [
-                        #logic.logical-slide.display()/#strong(utils.last-slide-number)
-                    ] else [
-                        #logic.logical-slide.display()
-                    ]))
-                ][
-                    #kit-date.display()
-                ][
-                    #kit-short-author.display() - #kit-short-title.display()
-                ][
-                    #align(right, kit-institute.display())
-                ]
-            ]
-        ]
-    ])
+    grid(rows: (22.5mm, 1fr, _kit-bottom-margin),
+      // Title bar
+      block(width: 100%, height: 22.5mm, inset: (x: _kit-inner-margin))[
+         #grid(columns: (auto, 1fr))[
+              #set text(24pt, weight: "bold")
+              // We need a block here to force the grid to take the full height of the surrounding block
+              #block(height: 100%)[
+                  #align(left + bottom, title)
+              ]
+          ][
+              #align(right + bottom)[
+                  #locate(loc => {
+                      image("kit/logo-" + kit-language.at(loc) + ".svg", width: 30mm)
+                  })
+              ]
+          ]
+      ],
+      // Content block
+      block(width: 100%, height: 100%, inset: (x: _kit-inner-margin, top: 15.5mm))[
+          #set text(18pt)
+          // Default value, but had to be changed for layout
+          #set block(above: 1.2em)
+          #body
+      ],
+      // Footer
+      align(bottom, block(width: 100%, inset: (x: _kit-outer-margin))[
+          #set block(above: 0pt)
+          #set text(size: 9pt)
+          #line(stroke: rgb("#d8d8d8"), length: 100%)
+          #block(width: 100%, height: 100%)[
+              #align(horizon)[
+                  #grid(columns: (20mm, 30mm, 1fr, auto),
+                      pad(left: 6mm, locate(loc => if kit-show-page-count.at(loc) [
+                          #logic.logical-slide.display()/#strong(utils.last-slide-number)
+                      ] else [
+                          #logic.logical-slide.display()
+                      ])),
+                      kit-date.display(),
+                      [#kit-short-author.display() - #kit-short-title.display()],
+                      align(right, kit-institute.display()),
+                  )
+              ]
+          ]
+      ])
+    )
 }
 
 #let split-slide(title: [], body-left, body-right) = {
