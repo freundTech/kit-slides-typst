@@ -9,6 +9,7 @@
     date: [July 2023],
     language: "en",
     institute: [Private],
+    show-page-count: false,
 )
 
 #title-slide(banner: "kit/banner.jpg")
