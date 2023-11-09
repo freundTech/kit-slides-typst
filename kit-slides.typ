@@ -40,77 +40,78 @@
 //=================
 
 #let kit-rounded-block(radius: 3mm, body) = {
-    block(
-        stroke: 0pt, // Workaround for https://github.com/typst/typst/issues/2533
-        radius: (
-            top-right: radius,
-            bottom-left: radius,
-        ),
-        clip: true,
-        body
-    )
+  block(
+    stroke: 0pt,
+    // Workaround for https://github.com/typst/typst/issues/2533
+    radius: (
+      top-right: radius,
+      bottom-left: radius,
+    ),
+    clip: true,
+    body,
+  )
 }
 
 #let kit-list-marker = move(dy: 0.125em, kit-rounded-block(
     radius: 0.15em,
     rect(
-        // The latex documentclass uses a size of 1ex, but type only supports em.
-        width: 0.5em,
-        height: 0.5em,
-        fill: kit-green,
-    )
-))
+      // The latex documentclass uses a size of 1ex, but type only supports em.
+      width: 0.5em,
+      height: 0.5em,
+      fill: kit-green,
+    ),
+  ))
 
 #let kit-theme(
-    title: none,
-    subtitle: none,
-    short-title: none,
-    author: none,
-    short-author: none,
-    language: "de",
-    group-logo: none,
-    institute: none,
-    date: none,
-    aspect-ratio: "16-9",
-    show-page-count: false,
-    body,
+  title: none,
+  subtitle: none,
+  short-title: none,
+  author: none,
+  short-author: none,
+  language: "de",
+  group-logo: none,
+  institute: none,
+  date: none,
+  aspect-ratio: "16-9",
+  show-page-count: false,
+  body,
 ) = {
 
-    if language not in ("en", "de") {
-        panic("Only English (en) and German (de) are currently supported")
-    }
-    // Use power point page sizes, as they differ from default typst page sizes.
-    set page(width: 25.4cm, height: 14.29cm, margin: 0pt) if aspect-ratio == "16-9"
-    set page(width: 25.4cm, height: 15.88cm, margin: 0pt) if aspect-ratio == "16-10"
-    set page(width: 25.4cm, height: 19.05cm, margin: 0pt) if aspect-ratio == "4-3"
-    if aspect-ratio not in ("16-9", "16-10", "4-3") {
-        panic("Unsupported aspect ratio")
-    }
+  if language not in ("en", "de") {
+    panic("Only English (en) and German (de) are currently supported")
+  }
+  // Use power point page sizes, as they differ from default typst page sizes.
+  set page(width: 25.4cm, height: 14.29cm, margin: 0pt) if aspect-ratio == "16-9"
+  set page(width: 25.4cm, height: 15.88cm, margin: 0pt) if aspect-ratio == "16-10"
+  set page(width: 25.4cm, height: 19.05cm, margin: 0pt) if aspect-ratio == "4-3"
+  if aspect-ratio not in ("16-9", "16-10", "4-3") {
+    panic("Unsupported aspect ratio")
+  }
 
-    set text(font: ("Arial", "Helvetica", "Roboto"))
+  set text(font: ("Arial", "Helvetica", "Roboto"))
 
-    set list(marker: kit-list-marker)
+  set list(marker: kit-list-marker)
 
-    kit-title.update(title)
-    kit-subtitle.update(subtitle)
-    if short-title == none {
-        kit-short-title.update(title)
-    } else {
-        kit-short-title.update(short-title)
-    }
-    kit-author.update(author)
-    if short-author == none {
-        kit-short-author.update(author)
-    } else {
-        kit-short-author.update(short-author)
-    }
-    kit-language.update(language)
-    kit-institute.update(institute)
-    kit-group-logo.update(group-logo)
-    kit-date.update(date)
-    kit-show-page-count.update(show-page-count)
+  kit-title.update(title)
+  kit-subtitle.update(subtitle)
+  if short-title == none {
+    kit-short-title.update(title)
+  } else {
+    kit-short-title.update(short-title)
+  }
+  kit-author.update(author)
+  if short-author == none {
+    kit-short-author.update(author)
+  } else {
+    kit-short-author.update(short-author)
+  }
+  kit-language.update(language)
+  kit-institute.update(institute)
+  kit-group-logo.update(group-logo)
+  kit-date.update(date)
+  kit-show-page-count.update(show-page-count)
 
-    body
+  body
 }
 
 //=================
@@ -118,125 +119,127 @@
 //=================
 
 #let title-slide(banner: none) = {
-    show: polylux-slide
-    if banner == none {
-        banner = "kit/banner.jpg"
-    }
+  show: polylux-slide
+  if banner == none {
+    banner = "kit/banner.jpg"
+  }
 
-    // Top half
-    pad(left: _kit-inner-margin, right: 6mm, top: _kit-top-margin)[
-        // KIT logo
-        #place[
-          #locate(loc => {
-              image("kit/logo-" + kit-language.at(loc) + ".svg", width: 45mm)
-          })
-        ]
-        // Group logo
-        #place(right)[
-            #block(width: 30mm, height: 30mm)[
-              #locate(loc => {
-                  let group-logo = kit-group-logo.at(loc)
-                  if group-logo != none [
-                        #image(group-logo)
-                  ]
-              })
-            ]
-        ]
-        // Title
-        #place(dy: 32mm, text(weight: "bold", size: 26pt, kit-title.display()))
-        // Subtitle
-        #place(dy: 44mm)[
-            #set text(weight: "bold", size: 18pt)
-            #set par(leading: 0.3em)
-            #kit-subtitle.display()
-        ]
+  // Top half
+  pad(left: _kit-inner-margin, right: 6mm, top: _kit-top-margin)[
+    // KIT logo
+    #place[
+      #locate(loc => {
+          image("kit/logo-" + kit-language.at(loc) + ".svg", width: 45mm)
+        })
     ]
-
-    // Bottom half
-    align(bottom, pad(x: _kit-outer-margin)[
-        // Banner
-        #block(height: 60mm, below: 0pt)[
-            #kit-rounded-block(radius: 3mm, image(banner, width: 100%, height: 100%))
-        ]
-        // Footer
-        #block(height: _kit-bottom-margin, width: 100%)[
-            #grid(columns: (auto, 1fr))[
-                #align(left + horizon)[
-                    #block(height: 100%)[
-                        #set text(size: 8pt)
-                        #locate(loc => {
-                            let language = kit-language.at(loc)
-                            if language == "en" [
-                                #text(lang: "en")[KIT - The Research University in the Helmholtz Association]
-                            ] else if language == "de" [
-                                #text(lang: "de")[KIT - Die Forschungsuniversität in der Helmholtz-Gemeinschaft]
-                            ]
-                        })
-                    ]
-                ]
-            ][
-                #align(right + horizon, block(height: 100%)[
-                    #link("https://www.kit.edu", text("www.kit.edu", weight: "bold", size: 16.5pt))
-                ])
+    // Group logo
+    #place(right)[
+      #block(width: 30mm, height: 30mm)[
+        #locate(loc => {
+            let group-logo = kit-group-logo.at(loc)
+            if group-logo != none [
+              #image(group-logo)
             ]
+          })
+      ]
+    ]
+    // Title
+    #place(dy: 32mm, text(weight: "bold", size: 26pt, kit-title.display()))
+    // Subtitle
+    #place(dy: 44mm)[
+      #set text(weight: "bold", size: 18pt)
+      #set par(leading: 0.3em)
+      #kit-subtitle.display()
+    ]
+  ]
+
+  // Bottom half
+  align(bottom, pad(x: _kit-outer-margin)[
+      // Banner
+      #block(height: 60mm, below: 0pt)[
+        #kit-rounded-block(radius: 3mm, image(banner, width: 100%, height: 100%))
+      ]
+      // Footer
+      #block(height: _kit-bottom-margin, width: 100%)[
+        #grid(columns: (auto, 1fr))[
+          #align(left + horizon)[
+            #block(height: 100%)[
+              #set text(size: 8pt)
+              #locate(loc => {
+                  let language = kit-language.at(loc)
+                  if language == "en" [
+                    #text(lang: "en")[KIT - The Research University in the Helmholtz Association]
+                  ] else if language == "de" [
+                    #text(lang: "de")[KIT - Die Forschungsuniversität in der Helmholtz-Gemeinschaft]
+                  ]
+                })
+            ]
+          ]
+        ][
+          #align(right + horizon, block(height: 100%)[
+              #link("https://www.kit.edu", text("www.kit.edu", weight: "bold", size: 16.5pt))
+            ])
         ]
+      ]
     ])
 }
 
 #let slide(title: [], body) = {
-    show: polylux-slide
-    set block(above: 0pt)
-    grid(rows: (22.5mm, 1fr, _kit-bottom-margin),
-      // Title bar
-      block(width: 100%, height: 22.5mm, inset: (x: _kit-inner-margin))[
-         #grid(columns: (auto, 1fr))[
-              #set text(24pt, weight: "bold")
-              // We need a block here to force the grid to take the full height of the surrounding block
-              #block(height: 100%)[
-                  #align(left + bottom, title)
-              ]
-          ][
-              #align(right + bottom)[
-                  #locate(loc => {
-                      image("kit/logo-" + kit-language.at(loc) + ".svg", width: 30mm)
-                  })
-              ]
+  show: polylux-slide
+  set block(above: 0pt)
+  grid(
+    rows: (22.5mm, 1fr, _kit-bottom-margin),
+    // Title bar
+    block(width: 100%, height: 22.5mm, inset: (x: _kit-inner-margin))[
+      #grid(columns: (auto, 1fr))[
+        #set text(24pt, weight: "bold")
+        // We need a block here to force the grid to take the full height of the surrounding block
+        #block(height: 100%)[
+          #align(left + bottom, title)
+        ]
+      ][
+        #align(right + bottom)[
+          #locate(loc => {
+              image("kit/logo-" + kit-language.at(loc) + ".svg", width: 30mm)
+            })
+        ]
+      ]
+    ],
+    // Content block
+    block(width: 100%, height: 100%, inset: (x: _kit-inner-margin, top: 15.5mm))[
+      #set text(18pt)
+      // Default value, but had to be changed for layout
+      #set block(above: 1.2em)
+      #body
+    ],
+    // Footer
+    align(bottom, block(width: 100%, inset: (x: _kit-outer-margin))[
+        #set block(above: 0pt)
+        #set text(size: 9pt)
+        #line(stroke: rgb("#d8d8d8"), length: 100%)
+        #block(width: 100%, height: 100%)[
+          #align(horizon)[
+            #grid(
+              columns: (20mm, 30mm, 1fr, auto),
+              pad(left: 6mm, locate(loc => if kit-show-page-count.at(loc) [
+                    #logic.logical-slide.display()/#strong(utils.last-slide-number)
+                  ] else [
+                    #logic.logical-slide.display()
+                  ])),
+              kit-date.display(),
+              [#kit-short-author.display() - #kit-short-title.display()],
+              align(right, kit-institute.display()),
+            )
           ]
-      ],
-      // Content block
-      block(width: 100%, height: 100%, inset: (x: _kit-inner-margin, top: 15.5mm))[
-          #set text(18pt)
-          // Default value, but had to be changed for layout
-          #set block(above: 1.2em)
-          #body
-      ],
-      // Footer
-      align(bottom, block(width: 100%, inset: (x: _kit-outer-margin))[
-          #set block(above: 0pt)
-          #set text(size: 9pt)
-          #line(stroke: rgb("#d8d8d8"), length: 100%)
-          #block(width: 100%, height: 100%)[
-              #align(horizon)[
-                  #grid(columns: (20mm, 30mm, 1fr, auto),
-                      pad(left: 6mm, locate(loc => if kit-show-page-count.at(loc) [
-                          #logic.logical-slide.display()/#strong(utils.last-slide-number)
-                      ] else [
-                          #logic.logical-slide.display()
-                      ])),
-                      kit-date.display(),
-                      [#kit-short-author.display() - #kit-short-title.display()],
-                      align(right, kit-institute.display()),
-                  )
-              ]
-          ]
-      ])
-    )
+        ]
+      ]),
+  )
 }
 
 #let split-slide(title: [], body-left, body-right) = {
-    let body = grid(columns: (1fr, 1fr), gutter: 2em, body-left, body-right)
+  let body = grid(columns: (1fr, 1fr), gutter: 2em, body-left, body-right)
 
-    slide(title: title, body)
+  slide(title: title, body)
 }
 
 #let kit-color-block(title: [], color: [], body) = {
@@ -250,16 +253,18 @@
   kit-rounded-block(
   )[
     #block(
-      width: 100%, 
-      inset: (x: 0.5em, top: 0.3em, bottom: 0.4em), 
+      width: 100%,
+      inset: (x: 0.5em, top: 0.3em, bottom: 0.4em),
       fill: gradient.linear(
-        (color, 0%), (color, 87%), (color.lighten(85%), 100%),
-        dir: ttb
+        (color, 0%),
+        (color, 87%),
+        (color.lighten(85%), 100%),
+        dir: ttb,
       ),
-      text(fill: title-color, title)
+      text(fill: title-color, title),
     )
     #set text(size: 15pt)
-    #block(inset: 0.5em , above: 0pt, fill: color.lighten(85%), width: 100%, body)
+    #block(inset: 0.5em, above: 0pt, fill: color.lighten(85%), width: 100%, body)
   ]
 }
 
@@ -274,4 +279,3 @@
 #let kit-alert-block(title: [], body) = {
   kit-color-block(title: title, color: red.lighten(10%), body)
 }
-
