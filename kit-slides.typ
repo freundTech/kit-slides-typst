@@ -41,8 +41,6 @@
 
 #let kit-rounded-block(radius: 3mm, body) = {
   block(
-    stroke: 0pt,
-    // Workaround for https://github.com/typst/typst/issues/2533
     radius: (
       top-right: radius,
       bottom-left: radius,
