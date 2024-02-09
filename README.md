@@ -61,7 +61,7 @@ If you use this template in an official capacity it is recommended to install a 
 
 ## Stability
 
-This theme is still very new. I'll try to keep incompatible changes to a minimal, but can't promise that there won't be any incompatible changes.
+This theme is still very new. I'll try to keep incompatible changes to a minimum, but can't promise that there won't be any incompatible changes.
 
 
 ## License

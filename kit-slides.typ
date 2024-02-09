@@ -242,7 +242,7 @@
 }
 
 #let kit-color-block(title: [], color: [], body) = {
-  // 80% is a rought heuristic, that produces the correct result for all predefined colors.
+  // 80% is a rough heuristic, that produces the correct result for all predefined colors.
   // Might be adjusted in the future
   let title-color = if luma(color).components().at(0) >= 80% {
     black
