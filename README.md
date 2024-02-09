@@ -5,6 +5,9 @@ A Karlsruhe Institute of Technology theme for typesetting slides in Typst.
 This theme uses [polylux](https://github.com/andreasKroepelin/polylux) for creating slides in Typst.
 You can find more information on available functions in the [polylux book](polylux.dev/book).
 
+The simplest way to use this template in the Typst web app is to first add this [read-only shared project](https://typst.app/project/rMlNud7c83Ybf0R2B9BBTt) to your account, then create a copy of it from your dashboard.
+
+
 ## Usage
 
 Clone this repository, then use `presentation.typ` as a starting point for your presentation.
