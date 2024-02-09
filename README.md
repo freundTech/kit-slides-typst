@@ -3,6 +3,7 @@
 A Karlsruhe Institute of Technology theme for typesetting slides in Typst.
 
 This theme uses [polylux](https://github.com/andreasKroepelin/polylux) for creating slides in Typst.
+You can find more information on available functions in the [polylux book](polylux.dev/book).
 
 ## Usage
 
