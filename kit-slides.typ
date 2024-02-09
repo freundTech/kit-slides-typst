@@ -235,6 +235,7 @@
   polylux-slide(wrapped-body)
 }
 
+// This function is left here for backwards compatibility only. Please use #slide(side-by-side[][]) instead.
 #let split-slide(title: [], body-left, body-right) = {
   let body = grid(columns: (1fr, 1fr), gutter: 2em, body-left, body-right)
 
