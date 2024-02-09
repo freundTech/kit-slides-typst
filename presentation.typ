@@ -20,20 +20,22 @@
   A new paragraph with #text(fill: blue)[colored] text.
 ]
 
-#split-slide(title: [A split slide])[
-  A list
+#slide(title: [A split slide])[
+  #side-by-side[
+    A list
 
-  - Item
-  - Another item
-  - A third item
-][
-  The right side.
+    - Item
+    - Another item
+    - A third item
+  ][
+    The right side.
 
-  #lorem(40)
+    #lorem(40)
+  ]
 ]
 
 #slide(title: [Dynamic slides])[
-  A fancy dynamic slide without a title.
+  A fancy dynamic slide.
   #uncover("2-")[This appears later!]
 ]
 
