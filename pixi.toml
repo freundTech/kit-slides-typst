@@ -1,0 +1,26 @@
+[project]
+name = "kit-slides-typst"
+version = "0.3.0"
+description = "A Karlsruhe Institute of Technology Slides Theme for Typst."
+authors = ["Adrian Freund <adrian@freund.io>"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "linux-aarch64", "win-64", "osx-64", "osx-arm64"]
+
+[tasks]
+compile = {cmd = "typst compile presentation.typ", env = { TYPST_FONT_PATHS = "fonts" } }
+watch = {cmd = "typst watch presentation.typ", env = { TYPST_FONT_PATHS = "fonts" } }
+
+[dependencies]
+typst = ">=0.11.1,<0.12"
+
+[feature.lint.dependencies]
+typstyle = ">=0.11.26,<0.12"
+typos = ">=1.22.7,<1.23"
+
+[feature.lint.tasks]
+typstyle = "typstyle format-all"
+typos = "typos"
+lint = { depends-on = [ "typstyle", "typos" ] }
+
+[environments]
+lint = ["lint"]

@@ -46,20 +46,45 @@ Now you can add more slides using
 
 ## Compiling
 
-### Using a local typst installation
+We recommend using [pixi](https://pixi.sh) as a task and environment manager. You can however also use a regular typst installation.
+
+### Using pixi
+
 ```bash
-typst compile --font-path ./fonts presentation.typ
+# compile once
+pixi run compile
 ```
 
-### Using podman-compose
 ```bash
-podman-compose run --rm typst compile presentation.typ
+# watch for changes and recompile automatically
+pixi run watch
 ```
+
+Pixi also allows you to easily run different linters.
+This template currently ships with `typos` to find typos and `typstyle` to format your typst code.
+```bash
+# run all linters
+pixi run lint
+```
+
+### Using a local typst installation
+
+```bash
+# compile once
+typst compile --font-path fonts/ thesis.typ
+```
+
+```bash
+# watch for changes and recompile automatically
+typst watch --font-path fonts/ thesis.typ
+```
+
+Make sure to not forget the `--font-path` argument as typst will otherwise silently use different fonts.
 
 
 ## Fonts
 
-The KIT design guide requires using Arial (Windows) or Helvetica (MacOS) for office documents, including presentations. Because neigher of those fonts is usually available on Linux machines this template ships with the free Roboto font to prevent typst from falling back to a serif font. Roboto is also approved by the KIT design guide, though only for web content, not office documents.
+The KIT design guide requires using Arial (Windows) or Helvetica (MacOS) for office documents, including presentations. Because neither of those fonts is usually available on Linux machines this template ships with the free Roboto font to prevent typst from falling back to a serif font. Roboto is also approved by the KIT design guide, though only for web content, not office documents.
 If you use this template in an official capacity it is recommended to install a copy of Arial on your system.
 
 

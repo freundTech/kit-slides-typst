@@ -4,3 +4,6 @@ fonts/Arial*
 presentation.pdf
 # typst cache
 .cache/
+# pixi environments
+.pixi
+*.egg-info
