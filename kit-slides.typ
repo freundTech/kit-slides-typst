@@ -50,7 +50,9 @@
   )
 }
 
-#let kit-list-marker = move(dy: 0.125em, kit-rounded-block(
+#let kit-list-marker = move(
+  dy: 0.125em,
+  kit-rounded-block(
     radius: 0.15em,
     rect(
       // The latex documentclass uses a size of 1ex, but type only supports em.
@@ -58,7 +60,8 @@
       height: 0.5em,
       fill: kit-green,
     ),
-  ))
+  ),
+)
 
 #let kit-theme(
   title: none,
@@ -120,7 +123,7 @@
 #let title-slide(banner: none) = {
   show: polylux-slide
   if banner == none {
-    banner = "kit/banner.jpg"
+    banner = "assets/kit/banner.jpg"
   }
 
   // Top half
@@ -128,18 +131,18 @@
     // KIT logo
     #place[
       #locate(loc => {
-          image("kit/logo-" + kit-language.at(loc) + ".svg", width: 45mm)
-        })
+        image("assets/kit/logo-" + kit-language.at(loc) + ".svg", width: 45mm)
+      })
     ]
     // Group logo
     #place(right)[
       #block(width: 30mm, height: 30mm)[
         #locate(loc => {
-            let group-logo = kit-group-logo.at(loc)
-            if group-logo != none [
-              #image(group-logo)
-            ]
-          })
+          let group-logo = kit-group-logo.at(loc)
+          if group-logo != none [
+            #image(group-logo)
+          ]
+        })
       ]
     ]
     // Title
@@ -153,18 +156,25 @@
   ]
 
   // Bottom half
-  align(bottom, pad(x: _kit-outer-margin)[
+  align(
+    bottom,
+    pad(x: _kit-outer-margin)[
       // Banner
       #block(height: 60mm, below: 0pt)[
-        #kit-rounded-block(radius: 3mm, image(banner, width: 100%, height: 100%))
+        #kit-rounded-block(
+          radius: 3mm,
+          image(banner, width: 100%, height: 100%),
+        )
       ]
       // Footer
       #block(height: _kit-bottom-margin, width: 100%)[
-        #grid(columns: (auto, 1fr))[
-          #align(left + horizon)[
-            #block(height: 100%)[
-              #set text(size: 8pt)
-              #locate(loc => {
+        #grid(
+          columns: (auto, 1fr),
+          [
+            #align(left + horizon)[
+              #block(height: 100%)[
+                #set text(size: 8pt)
+                #locate(loc => {
                   let language = kit-language.at(loc)
                   if language == "en" [
                     #text(lang: "en")[KIT - The Research University in the Helmholtz Association]
@@ -172,37 +182,54 @@
                     #text(lang: "de")[KIT - Die Forschungsuniversität in der Helmholtz-Gemeinschaft]
                   ]
                 })
+              ]
             ]
-          ]
-        ][
-          #align(right + horizon, block(height: 100%)[
-              #link("https://www.kit.edu", text("www.kit.edu", weight: "bold", size: 16.5pt))
-            ])
-        ]
+          ],
+          [
+            #align(
+              right + horizon,
+              block(height: 100%)[
+                #link(
+                  "https://www.kit.edu",
+                  text("www.kit.edu", weight: "bold", size: 16.5pt),
+                )
+              ],
+            )
+          ],
+        )
       ]
-    ])
+    ],
+  )
 }
 
 #let slide(title: [], body) = {
   // Title bar
   let header = block(width: 100%, height: 100%, inset: (x: _kit-inner-margin))[
-    #grid(columns: (auto, 1fr))[
-      #set text(24pt, weight: "bold")
-      // We need a block here to force the grid to take the full height of the surrounding block
-      #block(height: 100%)[
-        #align(left + bottom, title)
-      ]
-    ][
-      #align(right + bottom)[
-        #locate(loc => {
-            image("kit/logo-" + kit-language.at(loc) + ".svg", width: 30mm)
+    #grid(
+      columns: (auto, 1fr),
+      [
+        #set text(24pt, weight: "bold")
+        // We need a block here to force the grid to take the full height of the surrounding block
+        #block(height: 100%)[
+          #align(left + bottom, title)
+        ]
+      ],
+      [
+        #align(right + bottom)[
+          #locate(loc => {
+            image("assets/kit/logo-" + kit-language.at(loc) + ".svg", width: 30mm)
           })
-      ]
-    ]
+        ]
+      ],
+    )
   ]
 
   // Content block
-  let wrapped-body = block(width: 100%, height: 100%, inset: (x: _kit-inner-margin, top: 15.5mm))[
+  let wrapped-body = block(
+    width: 100%,
+    height: 100%,
+    inset: (x: _kit-inner-margin, top: 15.5mm),
+  )[
     #set text(18pt)
     // Default value, but had to be changed for layout
     #set block(above: 1.2em)
@@ -218,11 +245,14 @@
       #align(horizon)[
         #grid(
           columns: (20mm, 30mm, 1fr, auto),
-          pad(left: 6mm, locate(loc => if kit-show-page-count.at(loc) [
-                #logic.logical-slide.display()/#strong(utils.last-slide-number)
-              ] else [
-                #logic.logical-slide.display()
-              ])),
+          pad(
+            left: 6mm,
+            locate(loc => if kit-show-page-count.at(loc) [
+              #logic.logical-slide.display()/#strong(utils.last-slide-number)
+            ] else [
+              #logic.logical-slide.display()
+            ]),
+          ),
           kit-date.display(),
           [#kit-short-author.display() - #kit-short-title.display()],
           align(right, kit-institute.display()),
@@ -231,13 +261,21 @@
     ]
   ]
 
-  set page(header: header, footer: footer, margin: (top: 22.5mm, bottom: _kit-bottom-margin))
+  set page(
+    header: header,
+    footer: footer,
+    margin: (top: 22.5mm, bottom: _kit-bottom-margin),
+  )
   polylux-slide(wrapped-body)
 }
 
 // This function is left here for backwards compatibility only. Please use #slide(side-by-side[][]) instead.
 #let split-slide(title: [], body-left, body-right) = {
-  let body = grid(columns: (1fr, 1fr), gutter: 2em, body-left, body-right)
+  let body = grid(
+    columns: (1fr, 1fr),
+    gutter: 2em,
+    body-left, body-right,
+  )
 
   slide(title: title, body)
 }
@@ -250,8 +288,7 @@
   } else {
     white
   }
-  kit-rounded-block(
-  )[
+  kit-rounded-block()[
     #block(
       width: 100%,
       inset: (x: 0.5em, top: 0.3em, bottom: 0.4em),
@@ -264,7 +301,13 @@
       text(fill: title-color, title),
     )
     #set text(size: 15pt)
-    #block(inset: 0.5em, above: 0pt, fill: color.lighten(85%), width: 100%, body)
+    #block(
+      inset: 0.5em,
+      above: 0pt,
+      fill: color.lighten(85%),
+      width: 100%,
+      body,
+    )
   ]
 }
 

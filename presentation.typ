@@ -4,7 +4,7 @@
   title: [A KIT Presentation],
   subtitle: [Created using Typst and kit-slides],
   author: [Adrian Freund],
-  short-title: [A Kit Presentaion using Typst],
+  short-title: [A Kit Presentation using Typst],
   // group-logo: "Path to your group's logo. Optional",
   date: [July 2023],
   language: "en",
@@ -12,7 +12,9 @@
   show-page-count: false,
 )
 
-#title-slide(banner: "kit/banner.jpg")
+#title-slide(
+  //banner: "kit/banner.jpg"
+)
 
 #slide(title: [A slide title])[
   Some text: #lorem(20)
