@@ -24,7 +24,7 @@ The theme is imported and loaded using
     ],
     author: [Your name],
     short-title: [A short title to display at the bottom of all slides. Default to your title],
-    group-logo: "Path to the logo of your group", // Optional
+    group-logo: image("Path to the logo of your group"), // Optional
     date: [The date of the presentation],
     language: "de", // The language of the presentation. Supports "de" and "en".
     institute: [Your institute],
@@ -33,7 +33,7 @@ The theme is imported and loaded using
 
 Next insert the title slide using
 ```typst
-#title-slide(banner: "Path to your banner image")
+#title-slide(banner: image("Path to your banner image"))
 ```
 
 Now you can add more slides using
