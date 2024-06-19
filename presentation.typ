@@ -5,7 +5,7 @@
   subtitle: [Created using Typst and kit-slides],
   author: [Adrian Freund],
   short-title: [A Kit Presentation using Typst],
-  // group-logo: "Path to your group's logo. Optional",
+  // group-logo: image("Path to your group's logo"),
   date: [July 2023],
   language: "en",
   institute: [Private],
@@ -13,7 +13,7 @@
 )
 
 #title-slide(
-  //banner: "kit/banner.jpg"
+  //banner: image("assets/kit/banner.jpg")
 )
 
 #slide(title: [A slide title])[

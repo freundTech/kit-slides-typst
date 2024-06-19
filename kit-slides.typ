@@ -29,7 +29,6 @@
 #let kit-short-title = state("kit-short-title", none)
 #let kit-author = state("kit-author", [])
 #let kit-short-author = state("kit-short-author", none)
-#let kit-language = state("kit-language", "de")
 #let kit-group-logo = state("kit-group-logo", none)
 #let kit-institute = state("kit-institute", [])
 #let kit-date = state("kit-date", none)
@@ -38,6 +37,14 @@
 //=================
 // Helper functions
 //=================
+
+#let kit-logo(..rest) = context {
+  if text.lang == "de" {
+    image("/assets/kit/logo-de.svg", ..rest)
+  } else {
+    image("/assets/kit/logo-en.svg", ..rest)
+  }
+}
 
 #let kit-rounded-block(radius: 3mm, body) = {
   block(
@@ -90,7 +97,7 @@
     panic("Unsupported aspect ratio")
   }
 
-  set text(font: ("Arial", "Helvetica", "Roboto"))
+  set text(lang: language, font: ("Arial", "Helvetica", "Roboto"))
 
   set list(marker: kit-list-marker)
 
@@ -107,7 +114,6 @@
   } else {
     kit-short-author.update(short-author)
   }
-  kit-language.update(language)
   kit-institute.update(institute)
   kit-group-logo.update(group-logo)
   kit-date.update(date)
@@ -123,26 +129,20 @@
 #let title-slide(banner: none) = {
   show: polylux-slide
   if banner == none {
-    banner = "assets/kit/banner.jpg"
+    banner = image("/assets/kit/banner.jpg")
   }
 
   // Top half
   pad(left: _kit-inner-margin, right: 6mm, top: _kit-top-margin)[
     // KIT logo
     #place[
-      #locate(loc => {
-        image("assets/kit/logo-" + kit-language.at(loc) + ".svg", width: 45mm)
-      })
+      #kit-logo(width: 45mm)
     ]
     // Group logo
     #place(right)[
       #block(width: 30mm, height: 30mm)[
-        #locate(loc => {
-          let group-logo = kit-group-logo.at(loc)
-          if group-logo != none [
-            #image(group-logo)
-          ]
-        })
+        #set image(width: 100%)
+        #context kit-group-logo.get()
       ]
     ]
     // Title
@@ -161,10 +161,10 @@
     pad(x: _kit-outer-margin)[
       // Banner
       #block(height: 60mm, below: 0pt)[
-        #kit-rounded-block(
-          radius: 3mm,
-          image(banner, width: 100%, height: 100%),
-        )
+        #kit-rounded-block(radius: 3mm)[
+          #set image(width: 100%, height: 100%)
+          #banner
+        ]
       ]
       // Footer
       #block(height: _kit-bottom-margin, width: 100%)[
@@ -174,14 +174,13 @@
             #align(left + horizon)[
               #block(height: 100%)[
                 #set text(size: 8pt)
-                #locate(loc => {
-                  let language = kit-language.at(loc)
-                  if language == "en" [
-                    #text(lang: "en")[KIT - The Research University in the Helmholtz Association]
-                  ] else if language == "de" [
-                    #text(lang: "de")[KIT - Die Forschungsuniversität in der Helmholtz-Gemeinschaft]
+                #context {
+                  if text.lang == "en" [
+                    KIT - The Research University in the Helmholtz Association
+                  ] else if text.lang == "de" [
+                    KIT - Die Forschungsuniversität in der Helmholtz-Gemeinschaft
                   ]
-                })
+                }
               ]
             ]
           ],
@@ -216,9 +215,7 @@
       ],
       [
         #align(right + bottom)[
-          #locate(loc => {
-            image("assets/kit/logo-" + kit-language.at(loc) + ".svg", width: 30mm)
-          })
+          #kit-logo(width: 30mm)
         ]
       ],
     )
@@ -247,11 +244,11 @@
           columns: (20mm, 30mm, 1fr, auto),
           pad(
             left: 6mm,
-            locate(loc => if kit-show-page-count.at(loc) [
+            context if kit-show-page-count.get() [
               #logic.logical-slide.display()/#strong(utils.last-slide-number)
             ] else [
               #logic.logical-slide.display()
-            ]),
+            ],
           ),
           kit-date.display(),
           [#kit-short-author.display() - #kit-short-title.display()],
